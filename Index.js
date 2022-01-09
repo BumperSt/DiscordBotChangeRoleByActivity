@@ -1,10 +1,7 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
 const client = new Discord.Client({fetchAllMembers: true});
-const cargo = require('./setCargo')
-let guild = undefined
-let roles = []
-let rolesID = []
+const {CheckOnlineMembersAndAddRole, CheckOfflineMembersAndRemoveRole} = require('./roleFunctions')
 
 
 // let loadDB= fs.readFileSync('UserTime.json');
@@ -18,16 +15,16 @@ client.on("ready", () => {
         },
         status: 'online'
     })
+    CheckOfflineMembersAndRemoveRole(client)
+    CheckOnlineMembersAndAddRole(client); 
 
-    let guild = undefined
-    let roles = []
-    let rolesID = []
-    guild = client.guilds.cache.get(config.SERVER_ID);
     setInterval(() => { 
-        roles = guild.roles.cache.map(role => role.name)
-        rolesID = guild.roles.cache.map(role => role.id)
-        cargo(guild, roles); 
-    }, 5000);
+        CheckOnlineMembersAndAddRole(client); 
+    }, 15000);
+    setInterval(() => { 
+        CheckOfflineMembersAndRemoveRole(client)
+
+    }, 60000)
 })
 
 client.login(config.BOT_TOKEN);
