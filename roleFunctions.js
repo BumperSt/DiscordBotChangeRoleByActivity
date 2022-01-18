@@ -1,11 +1,10 @@
 const getRandomColor = require('./color')
 const fs = require('fs');
-const config = require("./config.json");
 let loadDB = fs.readFileSync('UserTime.json');
 let  userTime = JSON.parse(loadDB);
 
 const CheckOnlineMembersAndAddRole = (client) => { 
-    let guild = client.guilds.cache.get(config.SERVER_ID);
+    let guild = client.guilds.cache.get(process.env.SERVER_ID);
 
     let onlineMembers = guild.members.cache.filter(member => !member.user.bot & member.presence.status != 'offline')
     let onlineMembersId = Array.from(onlineMembers.keys());
@@ -68,7 +67,7 @@ const CheckOnlineMembersAndAddRole = (client) => {
 }
 
 const CheckOfflineMembersAndRemoveRole = (client) => {
-    let guild = client.guilds.cache.get(config.SERVER_ID);
+    let guild = client.guilds.cache.get(process.env.SERVER_ID);
 
     let offlineMembers = guild.members.cache.filter(member => !member.user.bot & member.presence.status === 'offline')
     let offlineMembersId = Array.from(offlineMembers.keys());

@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const config = require("./config.json");
 const client = new Discord.Client({fetchAllMembers: true});
 const {CheckOnlineMembersAndAddRole, CheckOfflineMembersAndRemoveRole} = require('./roleFunctions')
+require('dotenv/config');
 
 
 // let loadDB= fs.readFileSync('UserTime.json');
@@ -27,4 +27,4 @@ client.on("ready", () => {
     }, 60000)
 })
 
-client.login(config.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
